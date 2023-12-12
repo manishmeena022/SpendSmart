@@ -1,0 +1,57 @@
+import mongoose,{Schema} from "mongoose";
+
+const accountSchema = new Schema(
+    {
+        name: {
+          type: String,
+          required: true,
+        },
+        accountType: {
+          type: String,
+          enum: [
+            "Savings",
+            "Investment",
+            "Checking",
+            "Credit Card",
+            "Builing",
+            "School",
+            "Project",
+            "Utilities",
+            "Travel",
+            "Personal",
+            "Groceries",
+            "Entertainment",
+            "Loan",
+            "Cash Flow",
+            "Uncategorized",
+            "Education",
+          ],
+          required: true,
+        },
+    
+        initialBalance: {
+          type: Number,
+          default: 0,
+        },
+    
+        transactions: [
+          {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Transaction",
+          },
+        ],
+        createdBy: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+        },
+        notes: {
+          type: String,
+          required: true,
+        },
+    },{
+        timestamps: true,
+        toJSON: { virtuals: true },
+    }
+)
+
+export const Account = mongoose.model("Account", accountSchema);
